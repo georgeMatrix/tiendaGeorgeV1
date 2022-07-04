@@ -1,20 +1,19 @@
 package com.tiendaV1.tiendaGeorgeV1.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "producto", schema = "tienda", catalog = "")
 public class Producto {
     private Long idProducto;
     private String nombre;
     private String descripcion;
-    private Provedor provedorByIdProvedor;
+    private Provedor provedor;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
     public Long getIdProducto() {
         return idProducto;
@@ -48,10 +47,10 @@ public class Producto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Producto that = (Producto) o;
-        return Objects.equals(idProducto, that.idProducto) &&
-                Objects.equals(nombre, that.nombre) &&
-                Objects.equals(descripcion, that.descripcion);
+        Producto producto = (Producto) o;
+        return Objects.equals(idProducto, producto.idProducto) &&
+                Objects.equals(nombre, producto.nombre) &&
+                Objects.equals(descripcion, producto.descripcion);
     }
 
     @Override
@@ -60,13 +59,13 @@ public class Producto {
     }
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "id_provedor", referencedColumnName = "id_provedor", nullable = false)
-    public Provedor getProvedorByIdProvedor() {
-        return provedorByIdProvedor;
+    public Provedor getProvedor() {
+        return provedor;
     }
 
-    public void setProvedorByIdProvedor(Provedor provedorByIdProvedor) {
-        this.provedorByIdProvedor = provedorByIdProvedor;
+    public void setProvedor(Provedor provedor) {
+        this.provedor = provedor;
     }
 }

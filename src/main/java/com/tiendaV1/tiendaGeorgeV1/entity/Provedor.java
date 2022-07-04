@@ -1,6 +1,5 @@
 package com.tiendaV1.tiendaGeorgeV1.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -14,9 +13,10 @@ public class Provedor {
     private String nombre;
     private String telefono;
     private String empresa;
-    private List<Producto> productosByIdProvedor;
+    private List<Producto> productos;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_provedor")
     public Long getIdProvedor() {
         return idProvedor;
@@ -72,13 +72,13 @@ public class Provedor {
         return Objects.hash(idProvedor, nombre, telefono, empresa);
     }
 
-    @OneToMany(mappedBy = "provedorByIdProvedor")
-    @JsonBackReference
-    public List<Producto> getProductosByIdProvedor() {
-        return productosByIdProvedor;
+    @OneToMany(mappedBy = "provedor")
+    @JsonManagedReference
+    public List<Producto> getProductos() {
+        return productos;
     }
 
-    public void setProductosByIdProvedor(List<Producto> productosByIdProvedor) {
-        this.productosByIdProvedor = productosByIdProvedor;
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 }
